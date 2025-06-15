@@ -1,19 +1,19 @@
 from collections.abc import Callable, Generator
 
-taps: dict[str, Callable | None] = {}
+_stored_taps: dict[str, Callable | None] = {}
 
 
-def add_tap(fn: Callable) -> None:
+def add(fn: Callable) -> None:
     key = fn.__name__
 
-    taps[key] = fn
+    _stored_taps[key] = fn
 
 
-def remove_tap(fn: Callable) -> None:
+def remove(fn: Callable) -> None:
     key = fn.__name__
 
-    taps[key] = None
+    _stored_taps[key] = None
 
 
-def get_taps() -> Generator[Callable]:
-    return (v for v in taps.values() if v)
+def get() -> Generator[Callable]:
+    return (v for v in _stored_taps.values() if v)

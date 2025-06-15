@@ -1,11 +1,11 @@
 from collections.abc import Callable
 from functools import partial
 
-from python_tap.store import get_taps
+from python_tap import store
 
 
 def wrapper(fn: Callable, *args, **kwargs):
-    for tapped in get_taps():
+    for tapped in store.get():
         tapped(*args, **kwargs)
 
     return fn(*args, **kwargs)
