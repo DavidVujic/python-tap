@@ -1,19 +1,24 @@
+"""Tap store functions."""
+
 from collections.abc import Callable, Generator
 
-taps: dict[str, Callable | None] = {}
+_stored_taps: dict[str, Callable | None] = {}
 
 
-def add_tap(fn: Callable) -> None:
+def add(fn: Callable) -> None:
+    """Add a tap to the storage."""
     key = fn.__name__
 
-    taps[key] = fn
+    _stored_taps[key] = fn
 
 
-def remove_tap(fn: Callable) -> None:
+def remove(fn: Callable) -> None:
+    """Remove a tap from the storage."""
     key = fn.__name__
 
-    taps[key] = None
+    _stored_taps[key] = None
 
 
-def get_taps() -> Generator[Callable]:
-    return (v for v in taps.values() if v)
+def get() -> Generator[Callable]:
+    """Get all stored taps."""
+    return (v for v in _stored_taps.values() if v)
