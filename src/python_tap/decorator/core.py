@@ -9,7 +9,7 @@ from python_tap import store
 def wrapper(fn: Callable, *args, **kwargs) -> Callable:  # noqa: ANN002, ANN003
     """Wrap a function."""
     for tapped in store.get():
-        tapped(*args, **kwargs)
+        tapped(*args, **kwargs, tap_fn=fn)
 
     return fn(*args, **kwargs)
 
