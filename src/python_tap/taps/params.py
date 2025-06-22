@@ -1,5 +1,6 @@
 """Store function input data."""
 
+import functools
 import inspect
 from collections.abc import Callable
 from typing import Any
@@ -26,11 +27,15 @@ def _omit(data: dict, keys: set) -> dict:
     return {k: v for k, v in data.items() if k not in keys}
 
 
+def _extract_fn(fn: Callable) -> Callable:
+    return fn.args[0] if isinstance(fn, functools.partial) else fn
+
+
 def store(*args, **kwargs) -> None:  # noqa: ANN002, ANN003
     """Store the input data from a function call."""
     key = "tap_fn"
 
-    fn = kwargs[key]
+    fn = _extract_fn(kwargs[key])
     ns = _calculate_namespace(fn)
     data = _collect(fn, args, _omit(kwargs, {key}))
 
@@ -39,7 +44,8 @@ def store(*args, **kwargs) -> None:  # noqa: ANN002, ANN003
 
 def get(fn: Callable) -> dict | None:
     """Return the stored input data for a specific function."""
-    ns = _calculate_namespace(fn)
+    extracted = _extract_fn(fn)
+    ns = _calculate_namespace(extracted)
 
     return _storage.get(ns)
 
