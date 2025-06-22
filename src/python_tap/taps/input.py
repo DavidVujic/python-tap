@@ -30,3 +30,15 @@ def store(*args, **kwargs) -> None:  # noqa: ANN002, ANN003
     data = _collect(fn, args, kwargs)
 
     _storage[ns] = data
+
+
+def get(fn: Callable) -> dict | None:
+    """Return the stored input data for a specific function."""
+    ns = _calculate_namespace(fn)
+
+    return _storage.get(ns)
+
+
+def get_all() -> dict:
+    """Return all stored input data."""
+    return _storage
