@@ -22,12 +22,17 @@ def _calculate_namespace(fn: Callable) -> str:
     return f"{module}.{name}"
 
 
+def _omit(data: dict, keys: set) -> dict:
+    return {k: v for k, v in data.items() if k not in keys}
+
+
 def store(*args, **kwargs) -> None:  # noqa: ANN002, ANN003
     """Store the input data from a function call."""
-    fn = kwargs["tap_fn"]
+    key = "tap_fn"
 
+    fn = kwargs[key]
     ns = _calculate_namespace(fn)
-    data = _collect(fn, args, kwargs)
+    data = _collect(fn, args, _omit(kwargs, {key}))
 
     _storage[ns] = data
 
