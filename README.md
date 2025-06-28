@@ -75,10 +75,10 @@ Run the `my_function` again. This tap doesn't print anything, but it has stored 
 
 ``` python
 # get the stored data from the function
-tapped = taps.params.store.get(my_function)
+tapped = taps.params.get(my_function)
 
 # or get all stored data from all decorated functions
-tapped = taps.params.store.get_all()
+tapped = taps.params.get_all()
 
 
 print(tapped["message"]) # will print the string "hello world"
