@@ -14,14 +14,13 @@ running code in a REPL. You will have all the _tapped_ data available in the ses
 You can use Python Tap when running code in debug mode too.
 
 Python Tap itself, doesn't do any processing of data, but the functions you add to the `tap` does that.
-
 Included in this library, there are default taps. You can also write your own, or add
 any existing function accepting _*args_ and _**kwargs_ (such as a _logger_).
 
 You decorate functions, or call the `tap` function directly.
 The `tap` function will run the added _taps_ (functions) with the input to the target function.
 
-This library heavily inspired by the `tap>` feature in Clojure.
+> This library heavily inspired by the `tap>` feature in Clojure.
 
 ## Usage
 
