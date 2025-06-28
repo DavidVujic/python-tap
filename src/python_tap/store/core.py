@@ -12,11 +12,14 @@ def add(fn: Callable) -> None:
     _stored_taps[key] = fn
 
 
-def remove(fn: Callable) -> None:
+def remove(fn: Callable | None = None) -> None:
     """Remove a tap from the storage."""
-    key = fn.__name__
+    if not fn:
+        _stored_taps.clear()
+    else:
+        key = fn.__name__
 
-    _stored_taps[key] = None
+        _stored_taps.pop(key)
 
 
 def get() -> Generator[Callable]:
