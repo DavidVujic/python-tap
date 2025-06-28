@@ -1,9 +1,9 @@
 [project]
 name = "python-tap"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python implementation of tap. Useful for REPL Driven Development."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = []
 
 [tool.ruff]
