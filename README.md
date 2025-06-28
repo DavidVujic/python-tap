@@ -24,3 +24,74 @@ The `tap` function will run the added _taps_ (functions) with the input to the t
 
 ## Usage
 
+``` python
+from python_tap import tap
+
+
+@tap
+def my_function(message: str, data: dict):
+    ...
+    
+    
+my_function("hello world", {"key": "value"})
+```
+
+Python Tap will not do anything until adding a function to the `tap` storage. Let's do that.
+
+``` python
+import python_tap
+
+
+# this is an example tap function
+def print_data(*args, **kwargs):
+    print(f"{args} {kwargs}")
+
+
+# Add your function(s) to the tap storage
+python_tap.add(print_data)
+
+```
+
+``` python
+my_function("hello world", {"key": "value"})
+```
+
+The output:
+
+``` shell
+('hello world', {'key': 'value'}) {'tap_fn': <function my_function at 0x103d4d940>}
+```
+
+Adding the included _data storage_ tap, to be able to work with the input data at anytime in the REPL session.
+
+``` python
+from python_tap import taps
+
+
+python_tap.add(taps.params.store)
+```
+
+Run the `my_function` again. This tap doesn't print anything, but it has stored all data.
+
+``` python
+# get the stored data from the function
+tapped = taps.params.store.get(my_function)
+
+# or get all stored data from all decorated functions
+tapped = taps.params.store.get_all()
+
+
+print(tapped["message"]) # will print the string "hello world"
+print(tapped["data"]) # will print the dictionary {'key': 'value'}
+
+```
+
+Removing taps:
+
+``` python
+# Remove a single tap, i.e. the tap function
+python_tap.remove(print_data)
+
+# Or, remove all taps
+python_tap.remove()
+```
